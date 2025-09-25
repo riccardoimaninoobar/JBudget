@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Interfaccia per la gestione dei tag -->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- BorderPane con lista tag al centro e form di creazione/eliminazione a destra -->
+<!-- Vista collegata al controller TagsController per la logica -->
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.mpgc.jbudget123012.controller.TagsController">
+    <center>
+        <!-- TreeTableView per mostrare tag in modo gerarchico -->
+        <TreeTableView fx:id="tagTreeTableView">
+            <columns>
+                <!-- Colonne per nome tag e tag genitore -->
+                <TreeTableColumn fx:id="nameColumn" prefWidth="250.0" text="Nome Tag" />
+                <TreeTableColumn fx:id="parentColumn" prefWidth="250.0" text="Genitore" />
+            </columns>
+            <!-- Le colonne si ridimensionano per riempire lo spazio -->
+            <columnResizePolicy>
+                <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TreeTableView>
+    </center>
+    <right>
+        <!-- Pannello a destra per aggiungere o eliminare tag -->
+        <VBox spacing="10" style="-fx-padding: 15;" prefWidth="250">
+            <Label text="Nuovo Tag:" style="-fx-font-weight: bold;" />
+
+            <Label text="Nome:" />
+            <TextField fx:id="tagNameField" promptText="Es. Casa, Lavoro..." />
+
+            <Label text="Genitore (opzionale):" />
+            <ComboBox fx:id="parentTagComboBox" prefWidth="Infinity" />
+
+            <HBox spacing="10" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                <!-- Bottone per aggiungere il nuovo tag -->
+                <Button fx:id="addButton" onAction="#handleAddTag" text="Aggiungi" />
+            </HBox>
+
+            <!-- Bottone elimina posizionato in basso e disabilitato di default -->
+            <VBox alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
+                <Button fx:id="deleteButton" onAction="#handleDeleteTag" text="Elimina Selezionato" style="-fx-background-color: #ff6666;" textFill="white" disable="true" maxWidth="Infinity" />
+            </VBox>
+        </VBox>
+    </right>
+</BorderPane>

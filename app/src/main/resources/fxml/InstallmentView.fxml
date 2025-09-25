@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Interfaccia per la gestione dei piani a rate -->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<!-- Contenitore principale VBox con spaziatura verticale -->
+<!-- Collegato al controller InstallmentController -->
+<VBox spacing="15.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.mpgc.jbudget123012.controller.InstallmentController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+        <!-- Titolo della schermata -->
+        <Label text="Gestione Piani a Rate">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Label>
+
+        <!-- Sezione per aggiungere un nuovo piano, dentro un TitledPane -->
+        <TitledPane animated="false" text="Aggiungi Nuovo Piano di Ammortamento" collapsible="false">
+            <content>
+                <!-- GridPane per allineare etichette e campi di input -->
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <!-- Etichette per descrizione, importo, numero rate, data prima rata -->
+                        <Label text="Descrizione:" />
+                        <Label text="Importo Totale (€):" GridPane.columnIndex="1" />
+                        <Label text="Numero Rate:" GridPane.columnIndex="2" />
+                        <Label text="Data Prima Rata:" GridPane.columnIndex="3" />
+
+                        <!-- Campi di input -->
+                        <TextField fx:id="descriptionField" promptText="Es. Acquisto Divano" GridPane.rowIndex="1" />
+                        <TextField fx:id="totalAmountField" promptText="1500.00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Spinner fx:id="installmentsSpinner" editable="true" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="startDatePicker" prefWidth="170.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                    </children>
+                </GridPane>
+            </content>
+        </TitledPane>
+
+        <!-- Selezione tag e bottone per creare il piano -->
+        <HBox spacing="10.0" alignment="CENTER_LEFT">
+            <Label text="Associa Tags:" />
+            <ListView fx:id="tagsListView" prefHeight="80.0" />
+            <Button fx:id="createPlanButton" onAction="#handleCreatePlan" text="Crea Piano" style="-fx-font-weight: bold;" />
+        </HBox>
+
+        <!-- Separatore visivo tra le sezioni -->
+        <Separator prefWidth="200.0" />
+
+        <!-- Vista master-detail con SplitPane -->
+        <SplitPane dividerPositions="0.4" VBox.vgrow="ALWAYS">
+            <items>
+                <!-- Lato sinistro: lista dei piani esistenti -->
+                <VBox spacing="5.0">
+                    <children>
+                        <Label text="Piani Esistenti">
+                            <font><Font name="System Bold" size="14.0" /></font>
+                        </Label>
+                        <TableView fx:id="plansTableView" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="planDescriptionColumn" prefWidth="200.0" text="Descrizione" />
+                                <TableColumn fx:id="planTotalAmountColumn" prefWidth="100.0" text="Importo" />
+                                <TableColumn fx:id="planInstallmentsColumn" prefWidth="75.0" text="N° Rate" />
+                            </columns>
+                            <!-- Le colonne usano tutto lo spazio disponibile -->
+                            <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <!-- Lato destro: dettaglio delle rate del piano selezionato -->
+                <VBox spacing="5.0">
+                    <children>
+                        <Label text="Dettaglio Rate del Piano Selezionato">
+                            <font><Font name="System Bold" size="14.0" /></font>
+                        </Label>
+                        <TableView fx:id="installmentsTableView" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="installmentDueDateColumn" prefWidth="120.0" text="Data Scadenza" />
+                                <TableColumn fx:id="installmentAmountColumn" prefWidth="100.0" text="Importo Rata" />
+                                <TableColumn fx:id="installmentStatusColumn" prefWidth="100.0" text="Stato" />
+                            </columns>
+                            <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
+                        </TableView>
+
+                        <!-- Bottoni per azioni sulla rata selezionata, disabilitati di default -->
+                        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                            <padding><Insets top="10.0" /></padding>
+                            <children>
+                                <Button fx:id="deleteInstallmentButton" onAction="#handleDeleteInstallment" text="Elimina Rata" disable="true" style="-fx-background-color: #d9534f; -fx-text-fill: white;" />
+                                <Button fx:id="markAsPaidButton" onAction="#handleMarkAsPaid" text="Segna Rata come Pagata" disable="true" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+    </children>
+</VBox>

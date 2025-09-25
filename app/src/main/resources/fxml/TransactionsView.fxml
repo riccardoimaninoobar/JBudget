@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Interfaccia per la gestione dei movimenti finanziari -->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- BorderPane con tabella movimenti al centro e form inserimento in basso -->
+<!-- Vista collegata al controller TransactionsController -->
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.mpgc.jbudget123012.controller.TransactionsController">
+    <center>
+        <!-- Tabella che mostra tutti i movimenti -->
+        <TableView fx:id="transactionsTable">
+            <columns>
+                <!-- Colonne per data, descrizione, importo, tipo e tag -->
+                <TableColumn fx:id="dateColumn" prefWidth="100.0" text="Data" />
+                <TableColumn fx:id="descriptionColumn" prefWidth="250.0" text="Descrizione" />
+                <TableColumn fx:id="amountColumn" prefWidth="120.0" text="Importo" />
+                <TableColumn fx:id="typeColumn" prefWidth="100.0" text="Tipo" />
+                <TableColumn fx:id="tagsColumn" prefWidth="150.0" text="Tag Associati" />
+            </columns>
+            <!-- Le colonne si ridimensionano per occupare tutto lo spazio disponibile -->
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            </columnResizePolicy>
+        </TableView>
+    </center>
+    <bottom>
+        <!-- Form per aggiungere un nuovo movimento -->
+        <VBox spacing="10" style="-fx-padding: 15;">
+            <Label text="Nuovo Movimento:" style="-fx-font-weight: bold;" />
+
+            <!-- GridPane per allineare etichette e campi di input -->
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+                <children>
+                    <Label text="Descrizione:" GridPane.rowIndex="0" />
+                    <TextField fx:id="descriptionField" promptText="Es. Spesa supermercato" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <Label text="Dettagli:" GridPane.rowIndex="1" />
+                    <!-- HBox per mettere i campi importo, data e tipo uno accanto all'altro -->
+                    <HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <!-- I campi si espandono orizzontalmente -->
+                        <TextField fx:id="amountField" promptText="Importo (€)" HBox.hgrow="ALWAYS" />
+                        <DatePicker fx:id="datePicker" promptText="Data" HBox.hgrow="ALWAYS" />
+                        <ChoiceBox fx:id="typeChoiceBox" prefWidth="150.0" HBox.hgrow="ALWAYS" />
+                    </HBox>
+
+                    <Label text="Associa Tag:" GridPane.rowIndex="2" />
+                    <!-- ListView per selezionare più tag -->
+                    <ListView fx:id="tagsListView" prefHeight="80.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                    <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <!-- Bottone per aggiungere il movimento -->
+                        <Button onAction="#handleSaveTransaction" text="Aggiungi Movimento" />
+                    </HBox>
+                </children>
+            </GridPane>
+
+            <HBox alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                <!-- Bottone elimina disabilitato di default, attivato dal controller quando si seleziona un movimento -->
+                <Button fx:id="deleteButton" onAction="#handleDeleteTransaction" text="Elimina Selezionato" style="-fx-background-color: #ff6666;" textFill="white" disable="true" />
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>

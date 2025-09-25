@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Configurazione principale JPA e Hibernate per l'applicazione -->
+
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
+             version="3.1">
+
+    <!-- Gestione transazioni da parte dell'app (RESOURCE_LOCAL) -->
+    <persistence-unit name="jbudget-pu" transaction-type="RESOURCE_LOCAL">
+
+        <!-- Specifica l'implementazione JPA usata: Hibernate -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <!-- Classi entity gestite da Hibernate, elencate esplicitamente -->
+        <class>it.unicam.cs.mpgc.jbudget123012.model.Transaction</class>
+        <class>it.unicam.cs.mpgc.jbudget123012.model.Budget</class>
+        <class>it.unicam.cs.mpgc.jbudget123012.model.Tag</class>
+        <class>it.unicam.cs.mpgc.jbudget123012.model.Deadline</class>
+        <class>it.unicam.cs.mpgc.jbudget123012.model.InstallmentPlan</class>
+        <class>it.unicam.cs.mpgc.jbudget123012.model.Installment</class>
+
+        <properties>
+            <!-- Dati per connessione al database H2 (file locale nella cartella 'data') -->
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:file:./data/database;AUTO_SERVER=TRUE"/>
+            <property name="jakarta.persistence.jdbc.user" value="sa"/>
+            <property name="jakarta.persistence.jdbc.password" value=""/>
+
+            <!-- Dialetto SQL ottimizzato per H2 -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+
+            <!-- Aggiorna automaticamente lo schema DB senza perdere dati -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
+
+            <!-- Mostra in console le query SQL generate per debug -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>

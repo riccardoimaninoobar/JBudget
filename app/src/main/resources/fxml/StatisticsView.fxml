@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Interfaccia per la visualizzazione delle statistiche -->
+<!-- BorderPane per avere filtri in alto e grafici al centro -->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Vista collegata al controller StatisticsController che gestisce i dati -->
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unicam.cs.mpgc.jbudget123012.controller.StatisticsController">
+    <top>
+        <!-- Barra in alto con filtri per selezionare il mese -->
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 10 20 10 20; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;">
+            <Label text="Filtra per Mese:" style="-fx-font-weight: bold;" />
+            <!-- DatePicker per scegliere mese, aggiorna dati al cambiamento -->
+            <DatePicker fx:id="monthFilterPicker" promptText="Seleziona un mese" onAction="#handleFilterChange"/>
+            <!-- Bottone per azzerare il filtro -->
+            <Button text="Azzera" onAction="#handleResetFilter"/>
+        </HBox>
+    </top>
+    <center>
+        <!-- Contenitore centrale con riepilogo e grafico -->
+        <VBox alignment="CENTER" spacing="20.0" style="-fx-padding: 20;">
+            <!-- Riepilogo numerico entrate, uscite, saldo -->
+            <VBox alignment="CENTER" spacing="10.0">
+                <Label fx:id="summaryTitleLabel" text="Riepilogo Finanziario (Totale)" style="-fx-font-weight: bold; -fx-font-size: 20px;" />
+                <HBox alignment="CENTER" spacing="30.0">
+                    <VBox alignment="CENTER" spacing="5.0">
+                        <Label text="Entrate:" />
+                        <Label fx:id="totalIncomeLabel" text="€ 0.00" style="-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: green;" />
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="5.0">
+                        <Label text="Uscite:" />
+                        <Label fx:id="totalExpensesLabel" text="€ 0.00" style="-fx-font-weight: bold; -fx-font-size: 18px; -fx-text-fill: red;" />
+                    </VBox>
+                    <VBox alignment="CENTER" spacing="5.0">
+                        <Label text="Saldo Netto:" />
+                        <Label fx:id="netBalanceLabel" text="€ 0.00" style="-fx-font-weight: bold; -fx-font-size: 18px;" />
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Grafico a torta per spese per categoria -->
+            <!-- Si espande verticalmente per riempire lo spazio -->
+            <PieChart fx:id="expensesPieChart" title="Spese per Categoria" prefHeight="400.0" VBox.vgrow="ALWAYS" />
+        </VBox>
+    </center>
+</BorderPane>
