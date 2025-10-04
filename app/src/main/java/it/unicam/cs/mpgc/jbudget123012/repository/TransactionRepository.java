@@ -56,4 +56,16 @@ public interface TransactionRepository extends BaseRepository<Transaction, Long>
      */
     List<Transaction> findAllByMonth(YearMonth month);
 
+    /**
+     * Trova tutte le transazioni, pre-caricando i tag e i loro parenti
+     * per evitare LazyInitializationException.
+     */
+    List<Transaction> findAllWithTags();
+
+    /**
+     * Trova tutte le transazioni di un dato mese, pre-caricando i tag e i loro parenti
+     * per evitare LazyInitializationException.
+     */
+    List<Transaction> findAllByMonthWithTags(YearMonth month);
+
 }

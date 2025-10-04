@@ -75,13 +75,13 @@ public class StatisticsController {
         String title;
 
         if (month == null) {
-            title = "riepilogo finanziario (totale)";
+            title = "Riepilogo Finanziario (Totale)";
             totalIncome = statisticsService.getTotalIncome();
             totalExpenses = statisticsService.getTotalExpenses();
             netBalance = statisticsService.getNetBalance();
         } else {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ITALIAN);
-            title = "riepilogo finanziario (" + month.format(formatter) + ")";
+            title = "Riepilogo Finanziario (" + month.format(formatter) + ")";
             totalIncome = statisticsService.getTotalIncome(month);
             totalExpenses = statisticsService.getTotalExpenses(month);
             netBalance = statisticsService.getNetBalance(month);
@@ -107,6 +107,6 @@ public class StatisticsController {
         }
 
         expensesPieChart.setData(pieChartData);
-        expensesPieChart.setTitle("spese per categoria");
+        expensesPieChart.setTitle("Spese per categoria");
     }
 }

@@ -170,4 +170,39 @@ public class TransactionRepositoryImpl extends BaseRepositoryImpl<Transaction, L
             }
         }
     }
+
+    @Override
+    public List<Transaction> findAllWithTags() {
+        EntityManager em = getEntityManager();
+        try {
+            String jpql = "SELECT DISTINCT t FROM Transaction t LEFT JOIN FETCH t.tags tag LEFT JOIN FETCH tag.parentTag";
+            TypedQuery<Transaction> query = em.createQuery(jpql, Transaction.class);
+            return query.getResultList();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
+
+    @Override
+    public List<Transaction> findAllByMonthWithTags(YearMonth month) {
+        EntityManager em = getEntityManager();
+        try {
+            LocalDate startDate = month.atDay(1);
+            LocalDate endDate = month.atEndOfMonth();
+            String jpql = "SELECT DISTINCT t FROM Transaction t " +
+                    "LEFT JOIN FETCH t.tags tag " +
+                    "LEFT JOIN FETCH tag.parentTag " +
+                    "WHERE t.date BETWEEN :startDate AND :endDate";
+            TypedQuery<Transaction> query = em.createQuery(jpql, Transaction.class);
+            query.setParameter("startDate", startDate);
+            query.setParameter("endDate", endDate);
+            return query.getResultList();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+        }
+    }
 }

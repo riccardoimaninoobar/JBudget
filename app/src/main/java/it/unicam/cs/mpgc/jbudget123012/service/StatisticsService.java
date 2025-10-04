@@ -44,9 +44,11 @@ public class StatisticsService {
 
     /**
      * Calcola le spese totali raggruppate per tag radice.
+     * Utilizza un metodo del repository che pre-carica i tag per evitare LazyInitializationException.
      */
     public List<Statistic> getExpensesByRootTag() {
-        List<Transaction> allTransactions = transactionRepository.findAll();
+        // CORREZIONE: Chiamata al nuovo metodo del repository che carica i dati in modo EAGER
+        List<Transaction> allTransactions = transactionRepository.findAllWithTags();
         return calculateExpensesByRootTag(allTransactions);
     }
 
@@ -64,9 +66,11 @@ public class StatisticsService {
 
     /**
      * Calcola le spese di un mese specifico raggruppate per tag radice.
+     * Utilizza un metodo del repository che pre-carica i tag per evitare LazyInitializationException.
      */
     public List<Statistic> getExpensesByRootTag(YearMonth month) {
-        List<Transaction> monthlyTransactions = transactionRepository.findAllByMonth(month);
+        // CORREZIONE: Chiamata al nuovo metodo del repository che carica i dati in modo EAGER
+        List<Transaction> monthlyTransactions = transactionRepository.findAllByMonthWithTags(month);
         return calculateExpensesByRootTag(monthlyTransactions);
     }
 
@@ -81,6 +85,7 @@ public class StatisticsService {
         Map<Tag, BigDecimal> expensesByRootTag = new HashMap<>();
         for (Transaction transaction : transactions) {
             if (transaction.getType() == TransactionType.USCITA) {
+                // Questa parte ora funzionerà perché i tag e i parentTag sono già stati caricati
                 for (Tag tag : transaction.getTags()) {
                     Tag rootTag = tagService.findRootTag(tag);
                     if (rootTag != null) {
