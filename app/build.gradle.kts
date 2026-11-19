@@ -1,7 +1,7 @@
 plugins {
     java
     application
-    id("org.openjfx.javafxplugin") version "0.0.14"
+    id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
 group = "it.unicam.cs.mpgc.jbudget123012"
@@ -9,7 +9,7 @@ version = "1.0-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
 }
 
@@ -27,14 +27,15 @@ dependencies {
     runtimeOnly("com.h2database:h2:2.2.224")
 
     // Dipendenze per JavaFX
-    implementation("org.openjfx:javafx-controls:21")
-    implementation("org.openjfx:javafx-fxml:21")
+    implementation("org.openjfx:javafx-controls:25.0.1")
+    implementation("org.openjfx:javafx-fxml:25.0.1")
 
     // Dipendenze per il logging
     implementation("org.slf4j:slf4j-api:2.0.12")
     runtimeOnly("org.slf4j:slf4j-simple:2.0.12")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     // Necessario per il parsing di persistance.xml
     implementation("org.glassfish.jaxb:jaxb-runtime:4.0.5")
 }
@@ -48,7 +49,7 @@ tasks.test {
 }
 
 javafx {
-    version = "21"
+    version = "25.0.1"
     modules = listOf("javafx.controls", "javafx.fxml")
 }
 
